@@ -42,6 +42,10 @@ C_TARGET=
 LOADABLE_EXTENSION=dll
 rs_build_flags = -Zbuild-std
 endif
+ifeq ($(CI_MAYBE_TARGET),aarch64-pc-windows-msvc)
+C_TARGET=--target=aarch64-pc-windows-msvc
+LOADABLE_EXTENSION=dll
+endif
 
 ifdef IOS_TARGET
 CI_MAYBE_TARGET=$(IOS_TARGET)
@@ -161,6 +165,14 @@ ifdef CI_MAYBE_TARGET
 			C_TARGET = --target=$(CI_MAYBE_TARGET)ulator
 		endif
 	endif
+endif
+
+# MSVC targets emit crsql_<bundle>.lib rather than libcrsql_<bundle>.a
+ifeq ($(findstring windows-msvc,$(CI_MAYBE_TARGET)),windows-msvc)
+	rs_lib_static = ./rs/$(bundle)/target/$(CI_MAYBE_TARGET)/release/crsql_$(bundle).lib
+	rs_lib_static_cpy = ./dist/crsql_$(bundle)-static.lib
+	rs_lib_loadable = ./rs/$(bundle)/target/$(CI_MAYBE_TARGET)/release/crsql_$(bundle).lib
+	rs_lib_loadable_cpy = ./dist/crsql_$(bundle)-loadable.lib
 endif
 
 $(shell.c):
