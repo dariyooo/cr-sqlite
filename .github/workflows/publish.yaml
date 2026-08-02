@@ -241,7 +241,10 @@ jobs:
       - uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
-          ndk-version: r25c
+          # r27 and later align load segments to 16 KB by default, which
+          # Android 15 requires. r25c produces 4 KB aligned binaries that fail
+          # to load on 16 KB page size devices.
+          ndk-version: r27c
           local-cache: true
           add-to-path: false
 
