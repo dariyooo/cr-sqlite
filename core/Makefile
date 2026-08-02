@@ -42,6 +42,10 @@ C_TARGET=
 LOADABLE_EXTENSION=dll
 rs_build_flags = -Zbuild-std
 endif
+ifeq ($(CI_MAYBE_TARGET),aarch64-pc-windows-msvc)
+C_TARGET=--target=aarch64-pc-windows-msvc
+LOADABLE_EXTENSION=dll
+endif
 
 ifdef IOS_TARGET
 CI_MAYBE_TARGET=$(IOS_TARGET)
