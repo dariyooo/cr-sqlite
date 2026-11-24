@@ -29,6 +29,11 @@ jobs:
         with:
           path: ./
 
+      - name: Pin libclang for bindgen
+        if: runner.os == 'Linux'
+        run: |
+          ls -d /usr/lib/llvm-* /usr/lib/x86_64-linux-gnu/libclang* 2>/dev/null || true
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
       - name: Build
         run: |
           cd core
@@ -67,6 +72,11 @@ jobs:
 
       # macos-latest runners are arm64, so the target has to be explicit or the
       # build silently produces an arm64 dylib under an x86_64 name.
+      - name: Pin libclang for bindgen
+        if: runner.os == 'Linux'
+        run: |
+          ls -d /usr/lib/llvm-* /usr/lib/x86_64-linux-gnu/libclang* 2>/dev/null || true
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
       - name: Build MacOS x86_64 dylib
         run: |
           cd core
@@ -104,6 +114,11 @@ jobs:
           rustup toolchain install nightly-2023-10-05
           rustup target add aarch64-apple-darwin --toolchain nightly-2023-10-05
 
+      - name: Pin libclang for bindgen
+        if: runner.os == 'Linux'
+        run: |
+          ls -d /usr/lib/llvm-* /usr/lib/x86_64-linux-gnu/libclang* 2>/dev/null || true
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
       - name: Build MacOS Arm dylib
         run: |
           cd core
@@ -159,6 +174,11 @@ jobs:
           rustup target add aarch64-unknown-linux-gnu --toolchain nightly-2023-10-05
           rustup component add rust-src --toolchain nightly-2023-10-05-x86_64-unknown-linux-gnu
 
+      - name: Pin libclang for bindgen
+        if: runner.os == 'Linux'
+        run: |
+          ls -d /usr/lib/llvm-* /usr/lib/x86_64-linux-gnu/libclang* 2>/dev/null || true
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
       - name: Build
         run: |
           cd core
@@ -199,6 +219,11 @@ jobs:
         run: |
           sudo apt update && sudo apt install -y mingw-w64
 
+      - name: Pin libclang for bindgen
+        if: runner.os == 'Linux'
+        run: |
+          ls -d /usr/lib/llvm-* /usr/lib/x86_64-linux-gnu/libclang* 2>/dev/null || true
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
       - name: Build
         run: |
           cd core
@@ -231,6 +256,11 @@ jobs:
         with:
           arch: amd64_arm64
 
+      - name: Pin libclang for bindgen
+        if: runner.os == 'Linux'
+        run: |
+          ls -d /usr/lib/llvm-* /usr/lib/x86_64-linux-gnu/libclang* 2>/dev/null || true
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
       - name: Build
         shell: bash
         run: |
@@ -272,6 +302,11 @@ jobs:
         run: |
           sudo apt update && sudo apt install -y mingw-w64
 
+      - name: Pin libclang for bindgen
+        if: runner.os == 'Linux'
+        run: |
+          ls -d /usr/lib/llvm-* /usr/lib/x86_64-linux-gnu/libclang* 2>/dev/null || true
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
       - name: Build
         run: |
           cd core
@@ -330,6 +365,11 @@ jobs:
       - name: Cargo NDK
         run: cargo install cargo-ndk
 
+      - name: Pin libclang for bindgen
+        if: runner.os == 'Linux'
+        run: |
+          ls -d /usr/lib/llvm-* /usr/lib/x86_64-linux-gnu/libclang* 2>/dev/null || true
+          echo "LIBCLANG_PATH=/usr/lib/llvm-18/lib" >> "$GITHUB_ENV"
       - name: Build
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
